@@ -1,0 +1,191 @@
+" set commands: https://github.com/JetBrains/ideavim/wiki/%22set%22-commands
+" actions (from :actionlist [pattern]): https://gist.githubusercontent.com/zchee/9c78f91cc5ad771c1f5d/raw/actionlist.vim
+
+let mapleader=";"
+
+""" Plugins  --------------------------------
+set easymotion  " requires https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion/
+set quickscope  " requires https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope/
+set NERDTree
+set textobj-indent
+set textobj-entire
+set argtextobj
+set exchange
+set surround
+set commentary
+set multiple-cursors
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>,{:}"
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_startofline = 0
+let g:qs_primary_color = '#d68447'
+let g:qs_secondary_color = '#005e7d'
+
+""" Common settings -------------------------
+set number
+set showmode
+set scrolloff=2
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Plugin settings -------------------------
+let g:NERDTreeMapActivateNode = 'l'
+let g:NERDTreeMapCloseDir = 'h'
+
+""" Mappings --------------------------------
+nnoremap <BS> gT
+nnoremap \ gt
+noremap gw [w
+noremap gb [b
+noremap ge ]w
+nnoremap ciu ]b[wc]w
+nmap cau ciu
+nnoremap diu ]b[wd]w
+nmap dau diu
+" cannot :omap (:normal and v:count not implemented)
+nnoremap c2iu ]b[wc2]w
+nnoremap c3iu ]b[wc3]w
+nnoremap d2iu ]b[wd2]w
+nnoremap d3iu ]b[wd3]w
+xnoremap il ^og_
+nnoremap cil v^og_c
+nnoremap dil v^og_d
+nnoremap yil v^og_y
+nnoremap <leader>yil v^og_"+y
+xnoremap al 0o$
+xnoremap af iw%
+nnoremap caf viw%c
+nnoremap daf viw%d
+nnoremap yaf viw%y
+nnoremap <leader>yae vGoggV"+y
+xmap v <Action>(EditorSelectWord)
+xmap <BS> <Action>(EditorUnSelectWord)
+noremap , ;
+noremap ;, ,
+map ' <Plug>(easymotion-bd-f)
+map <leader>e <Plug>(easymotion-bd-w)
+map <leader>j <Plug>(easymotion-sol-j)
+map <leader>k <Plug>(easymotion-sol-k)
+nmap yss ysiw
+xmap s <Plug>VSurround
+noremap 0 ^
+noremap ^ 0
+noremap - $
+xnoremap - g_
+noremap g- g$
+map <Down> gj
+map <Up> gk
+nmap _ <Action>(Back)
+nmap + <Action>(Forward)
+nnoremap Q q
+nnoremap Y y$
+xnoremap < <gv
+xnoremap > >gv
+nnoremap gp `[v`]
+inoremap jk <Esc>
+inoremap kj <Esc>
+nnoremap <C-c> :nohlsearch<CR>
+inoremap <C-c> <Esc>
+xnoremap <C-c> <Esc>
+nnoremap <C-h> :NERDTree<CR>
+nmap <C-j> <Action>(ActiveToolwindowGroup)
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nmap <C-w><BS> :tabmove -1<CR><C-w>
+nmap <C-w>\ :tabmove +1<CR><C-w>
+noremap <leader>y "+y
+nnoremap <leader>Y "+y$
+noremap <leader>p "0p
+noremap <leader>P "0P
+map <leader>fs <Action>(GotoFile)
+map <leader>fu <Action>(FileStructurePopup)
+map <leader>fU <Action>(GotoSymbol)
+map <leader>fm <Action>(RecentLocations)
+map <leader>fM <Action>(RecentFiles)
+map <leader>fg <Action>(SearchEverywhere)
+nmap <leader>fj viw<Action>(FindInPath)
+xmap <leader>fj <Action>(FindInPath)
+map <leader>ff <Action>(GotoAction)
+nnoremap <leader>fy :registers<CR>
+nnoremap <leader>n *N
+xnoremap <leader>n y/\V<C-r>"<CR>N
+nmap <leader>c <leader>ncgn
+xmap <leader>c <leader>ncgn
+nmap <leader>tu <Action>(ReopenClosedTab)
+nmap <leader>b <Action>(SelectInProjectView)
+imap <leader>w <Esc><leader>w
+nmap <leader>w <Action>(SaveAll)
+nmap <leader>W <Action>(SaveAll)
+nmap <leader>q <Action>(CloseEditor)
+nmap <leader>x <Action>(CloseEditor)
+" <D-g> to skip current occurrence
+map <C-n> <Action>(SelectNextOccurrence)
+map <leader><C-n> <Action>(SelectAllOccurrences)
+map <C-p> <Action>(UnselectPreviousOccurrence)
+
+" nmap <leader>r <Action>(CompileDirty)
+nmap <leader>r <Action>(RunContextGroup)
+nmap <C-b> <Action>(ActivateRunToolWindow)
+nmap <leader>to <Action>(ActivateTerminalToolWindow)
+nmap <leader>tt <Action>(Terminal.OpenInTerminal)
+
+nmap ZH <Action>(HideActiveWindow)
+nmap Z[ <Action>(CloseAllToTheLeft)
+nmap Z] <Action>(CloseAllToTheRight)
+nmap [g <Action>(VcsShowPrevChangeMarker)
+nmap ]g <Action>(VcsShowNextChangeMarker)
+nmap [a <Action>(GotoPreviousError)
+nmap ]a <Action>(GotoNextError)
+nmap [b <Action>(ToggleLineBreakpoint)
+nmap ]b <Action>(ViewBreakpoints)
+nnoremap [<Space> mxO<Esc>`x
+nnoremap ]<Space> mxo<Esc>`x
+nnoremap [p O<C-r>"<Esc>
+nnoremap ]p o<C-r>"<Esc>
+nmap yoP <Action>(TogglePowerSave)
+
+nmap gr <Action>(FindUsages)
+nnoremap Km K
+nmap Ku <Action>(Vcs.RollbackChangedLines)
+nmap Kd <Action>(Vcs.Show.Local.Changes)
+nmap Kb <Action>(Annotate)
+nmap Kf <Action>(Vcs.ShowTabbedFileHistory)
+nmap Ke <Action>(Generate)
+nmap Kr <Action>(Github.Open.In.Browser)
+nmap KR <Action>(Refactorings.QuickListPopupAction)
+nmap gh <Action>(ShowErrorDescription)
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap <C-f> <Action>(OptimizeImports)<Action>(ReformatCode)
+nmap <C-t> <Action>(GotoTest)
+nmap <leader>a <Action>(ShowIntentionActions)
+nmap <leader>s <Action>(QuickActionPopup)
+nmap <leader>R <Action>(RenameElement)
+nmap <leader>d <Action>(GotoImplementation)
+nmap <leader>D <Action>(GotoSuperMethod)
+
+" textobj-indent, this loads before plugin so need to :source ~/.ideavimrc again
+xmap ai <Plug>textobj-indent-aI
+omap ai <Plug>textobj-indent-aI
+xmap aI <Plug>textobj-indent-ai
+omap aI <Plug>textobj-indent-ai
+
+" java
+nnoremap <leader>l mx"xyiwoSystem.out.println("[" + getClass().getSimpleName() + " " + (<C-r>x).getClass().getSimpleName() + "] ❗<C-r>x: " + <C-r>x);<Esc>`x
+xnoremap <leader>l mx"xyoSystem.out.println("[" + getClass().getSimpleName() + " " + (<C-r>x).getClass().getSimpleName() + "] ❗<C-r>x: " + <C-r>x);<Esc>`x
+nnoremap <leader>L mx"xyiwOSystem.out.println("[" + getClass().getSimpleName() + " " + (<C-r>x).getClass().getSimpleName() + "] ❗<C-r>x: " + <C-r>x);<Esc>`x
+xnoremap <leader>L mx"xyOSystem.out.println("[" + getClass().getSimpleName() + " " + (<C-r>x).getClass().getSimpleName() + "] ❗<C-r>x: " + <C-r>x);<Esc>`x
+
+" " kotlin
+" nnoremap <leader>l mx"xyiwoprintln("❗<C-r>x ${<C-r>x}")<Esc>`x
+" nnoremap <leader>L mx"xyiwOprintln("❗<C-r>x ${<C-r>x}")<Esc>`x
+" xnoremap <leader>l mx"xyoprintln("❗<C-r>x ${<C-r>x}")<Esc>`x
+" xnoremap <leader>L mx"xyOprintln("❗<C-r>x ${<C-r>x}")<Esc>`x
